@@ -1,7 +1,5 @@
 class User {
-
-    constructor(id = null, firstName, lastName, email, password, profilePicture64 = null) {
-        this.id = id;
+    constructor(firstName, lastName, email, password, profilePicture64 = null) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -9,3 +7,5 @@ class User {
         this.profilePicture64 = profilePicture64;
     }
 }
+
+module.exports = { User };
