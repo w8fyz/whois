@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
 const {
     createUser,
     updateUser,
@@ -8,9 +9,14 @@ const {
     getUserById
 } = require('../services/userService');
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         const users = await getUsers();
+        const self = await getUserById(req.user.userId);
+        console.log(self);
+        if(!self.isAdmin) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
         if (users.error) {
             return res.status(users.code).json({ error: users.error });
         }
@@ -20,9 +26,13 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {
     try {
         const user = await getUserById(req.params.id);
+        const self = await getUserById(req.user.userId);
+        if(!self.isAdmin && req.user.userId !== req.user.id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }

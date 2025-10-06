@@ -7,7 +7,8 @@ router.get("/", async (req, res) => {
     message: "Hello World!!!",
     endpoints: {
       users: "/users",
-      contacts: "/contacts"
+      contacts: "/contacts",
+      auth: "/auth",
     }
   });
 });

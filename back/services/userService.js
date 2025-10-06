@@ -62,19 +62,29 @@ async function getUserByEmail(email) {
     }
 }
 
-async function getUserById(id) {
+async function getUserById(id, keepPassword = false) {
     try {
         const col = await getCollection();
-        return await col.findOne({ _id: new ObjectId(id) });
+        const result = await col.findOne({ _id: new ObjectId(id) });
+        if(!keepPassword) {
+            const { password, ...safeUser } = result;
+            return safeUser;
+        }
+        return result;
     } catch (error) {
         return null;
     }
 }
 
-async function getUsers() {
+async function getUsers(keepPassword = false) {
     try {
         const col = await getCollection();
-        return await col.find({}).toArray();
+        const users = await col.find({}).toArray();
+        if(keepPassword) {
+            return users;
+        } else {
+            return users.map(({ password, ...rest }) => rest);
+        }
     } catch (error) {
         return { error: error.message, code: 500 };
     }
