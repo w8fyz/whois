@@ -3,7 +3,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5050';
 const getAuthHeader = () => {
   const token = localStorage.getItem('auth_token');
   return token ? { 'Authorization': `Bearer ${token}` } : {
-    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    'Access-Control-Allow-Origin': process.env.REACT_APP_ORIGIN_URL,
     'Access-Control-Allow-Credentials': 'true'};
 };
 
@@ -13,7 +13,7 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'Access-Control-Allow-Origin': process.env.REACT_APP_ORIGIN_URL,
         'Access-Control-Allow-Credentials': 'true'
       },
       body: JSON.stringify(userData),
@@ -32,7 +32,7 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'Access-Control-Allow-Origin': process.env.REACT_APP_ORIGIN_URL,
         'Access-Control-Allow-Credentials': 'true'
       },
       body: JSON.stringify({ email, password }),
