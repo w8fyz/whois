@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import api from '../services/api';
 
-function Auth({ onAuthSuccess, onCancel }) {
+function Auth({ onAuthSuccess }) {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -40,8 +43,9 @@ function Auth({ onAuthSuccess, onCancel }) {
       }
 
       if (response.token) {
-        localStorage.setItem('auth_token', response.token);
+        Cookies.set('auth_token', response.token, { expires: 7, sameSite: 'strict' });
         onAuthSuccess(response);
+        navigate('/');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed');
@@ -135,13 +139,11 @@ function Auth({ onAuthSuccess, onCancel }) {
         </button>
       </div>
       
-      {onCancel && (
-        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-          <button className="btn btn-link" onClick={onCancel}>
-            Cancel
-          </button>
-        </div>
-      )}
+      <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+        <button className="btn btn-link" onClick={() => navigate('/')}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

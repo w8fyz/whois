@@ -71,6 +71,9 @@ router.put('/:id', authMiddleware, async (req, res) => {
         if (lastName) updateData.lastName = lastName;
         if (email) updateData.email = email;
         if (phoneNumber !== undefined) updateData.phoneNumber = phoneNumber;
+        if(phoneNumber.length < 10 || phoneNumber.length > 20) {
+            return res.status(400).json({ error: 'Invalid phone number' });
+        }
         if (company !== undefined) updateData.company = company;
         if (notes !== undefined) updateData.notes = notes;
 
