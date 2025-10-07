@@ -35,6 +35,11 @@ function App() {
     setCurrentView('home');
   };
 
+  const handleTitleClick = () => {
+    setShowAuth(false);
+    setCurrentView('home');
+  }
+
   const handleShowAuth = () => {
     setShowAuth(true);
     setCurrentView('auth');
@@ -46,6 +51,7 @@ function App() {
         user={user} 
         onLogout={handleLogout} 
         onShowAuth={handleShowAuth}
+        onTitleClick={handleTitleClick}
       />
       
       <div className="main-content">
@@ -57,7 +63,7 @@ function App() {
               setCurrentView('home');
             }}
           />
-        ) : <Home />}
+        ) : <Home user={user} />}
       </div>
     </div>
   );
