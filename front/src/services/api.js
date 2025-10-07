@@ -1,7 +1,9 @@
+import Cookies from "js-cookie";
+
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5050';
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem('auth_token');
+  const token = Cookies.get('auth_token');
   return token ? { 'Authorization': `Bearer ${token}` } : {
     'Access-Control-Allow-Origin': process.env.REACT_APP_ORIGIN_URL,
     'Access-Control-Allow-Credentials': 'true'};
